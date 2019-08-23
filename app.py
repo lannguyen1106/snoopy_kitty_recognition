@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import re
 import tensorflow as tf
 from flask import Flask, escape, render_template, request, send_from_directory
 
@@ -16,9 +17,12 @@ def parse_image(imgData):
 def main():
      return render_template("home.html")
 
-@app.route("/upload/", methods=["POST"])
+@app.route("/upload", methods = ['GET', 'POST'])
 def upload_file():
-    img_raw = parse_image(request.get_data())
+    # img_raw = parse_image(request.get_data())
+
+    if request.method == 'POST':
+      uploaded_file = request.files['file']
 
     # image = tf.image.decode_jpeg(img_raw, channels=1)
     # image = tf.image.resize(image, [28, 28])
@@ -29,4 +33,7 @@ def upload_file():
     # prediction = np.argmax(probabilites, axis=1)
     # return str(prediction)
 
-    return img_raw
+    return uploaded_file
+
+if __name__ == '__main__':
+  app.run(debug = True)

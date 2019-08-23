@@ -1,10 +1,7 @@
 $(document).ready(function() {
   console.log("Hello Kitty!")
 
-  $('#fileupload').fileupload({
-    url: '/upload/',
-    type: 'POST'
-  });
+  $("#fileupload").dropzone({ url: "/file/post" });
 
   /*
   function handle_upload(e) {
