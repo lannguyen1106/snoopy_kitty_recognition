@@ -8,6 +8,9 @@ python_version = "3.7"
 
 [packages]
 flask = "*"
+flask-uploads = "*"
+flask-dropzone = "*"
+flask-debugtoolbar = "*"
 
 [dev-packages]
 black = "==19.3b0"
