@@ -1,8 +1,21 @@
-$(document).ready(function() {
+// Show the selected image to the UI before uploading
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+      $('#preview-image').attr('src', e.target.result);
+    }
+    
+    reader.readAsDataURL(input.files[0]);
+  }
+}
 
-  
+$("#file").change(function() {
+  readURL(this);
 });
 
+// Upload image using AJAX
 let my_form = document.getElementById('form-upload-image')
 $('#form-upload-image').submit(function(e) {
   e.preventDefault();
@@ -20,20 +33,4 @@ $('#form-upload-image').submit(function(e) {
       $('#probs').text('Probability: ' + data['probs']);
     }
   });
-});
-
-function readURL(input) {
-  if (input.files && input.files[0]) {
-    var reader = new FileReader();
-    
-    reader.onload = function(e) {
-      $('#preview-image').attr('src', e.target.result);
-    }
-    
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-
-$("#file").change(function() {
-  readURL(this);
 });
