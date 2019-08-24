@@ -61,11 +61,13 @@
               <p class="subtitle">Please upload your photo</p>
 
               <p class="title">UPLOAD FILE HERE</p>
-              <form action="/upload-image/" method="POST" id="form-upload-image" encrypt="multipart/form-data">
-                <input type="file" id="input_image_file" name="input_image_file">
+              <form method="POST" id="form-upload-image" enctype="multipart/form-data">
+                <img id="preview-image" src="#" alt="" />
+                <input type="file" name="file" id="file">
                 <input type="submit" value="Predict Now" id="input_submit_btn">
               </form>
               <div id="result"></div>
+              <div id="probs"></div>
               <!-- UPLOAD FILE FORM -->
               <!-- dropzone.create(action_view='main')  -->
             </article>

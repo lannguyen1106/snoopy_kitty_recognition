@@ -3,8 +3,10 @@ import base64
 import os
 import logging
 import re
+import sys
 import tensorflow as tf
-from flask import Flask, flash, escape, render_template, request, send_from_directory, redirect, session, url_for
+from werkzeug import secure_filename
+from flask import Flask, flash, escape, render_template, request, send_from_directory, redirect, session, url_for, jsonify
 from flask_dropzone import Dropzone
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from flask_debugtoolbar import DebugToolbarExtension
@@ -12,6 +14,11 @@ from flask_debugtoolbar import DebugToolbarExtension
 app = Flask(__name__)
 app.debug = True
 app.config['SECRET_KEY'] = 'Jody Thai'
+app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
+
+IMAGE_WIDTH = 120
+IMAGE_HEIGHT = 120
 
 # toolbar = DebugToolbarExtension(app)
 
@@ -29,69 +36,27 @@ app.config['SECRET_KEY'] = 'Jody Thai'
 # configure_uploads(app, photos)
 # patch_request_class(app)
 
-UPLOAD_FOLDER = '/uploads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
-model = tf.keras.models.load_model("static/models/my_model.h5")
-
-def parse_image(imgData):
-  imgstr = re.search(b"base64,(.*)", imgData).group(1)
-  img_decode = base64.decodebytes(imgstr)
-  with open("output.jpg", "wb") as file:
-      file.write(img_decode)
-  return img_decode
+model = tf.keras.models.load_model("static/models/my_model_tl_sigmoid_acc95.h5")
 
 def allowed_file(filename):
-  return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+  return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 @app.route('/')
 def main():
-  # # set session for image results
-  # if "file_urls" not in session:
-  #     session['file_urls'] = []
-  # # list to hold our uploaded image urls
-  # file_urls = session['file_urls']
-
-  # if request.method == 'POST':
-  #   file_obj = request.files[0]
-
-  #   # for f in file_obj:
-  #   file = request.files.get(file_obj)
-    
-  #   # save the file with to our photos folder
-  #   filename = photos.save(
-  #       file,
-  #       name=file.filename
-  #   )
-
-  #   # append image urls
-  #   file_urls.append(photos.url(filename))
-
-  #   image = file.save(image)
-
-  # Predict
-  # image = tf.image.decode_jpeg(image, channels=1)
-  # image = tf.image.resize(image, [28, 28])
-  # image = (255 - image) / 255.0 # normalize to [0,1] range
-  # image = tf.reshape(image, (1, 28, 28, 1))
-
-  # probabilites = model.predict(image)
-  # prediction = np.argmax(probabilites, axis=1)
-
-  # return str(prediction)
-
   return render_template('home.html')
 
 @app.route('/upload-image/', methods=['GET', 'POST'])
 def upload_image():
-  prediction = ''
 
+  prediction_probs = ''
+  label = ''
+  
   if request.method == 'POST':
 
     if 'file' not in request.files:
       flash('No file part')
       return redirect(request.url)
-      
+
     file = request.files['file']
 
     # if user does not select file, browser also
@@ -102,20 +67,39 @@ def upload_image():
 
     if file and allowed_file(file.filename):
       filename = secure_filename(file.filename)
-      file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+      upload_file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+      file.save(upload_file_path)
       # return redirect(url_for('uploaded_file', filename=filename))
 
       # img_raw = parse_image(request.get_data())
-
-      image = tf.image.decode_jpeg(file, channels=1)
-      image = tf.image.resize(image, [28, 28])
+      image_raw = tf.io.read_file(upload_file_path)
+      image = tf.image.decode_jpeg(image_raw, channels=3)
+      image = tf.image.resize(image, [IMAGE_HEIGHT, IMAGE_WIDTH])
       image = (255 - image) / 255.0  # normalize to [0,1] range
-      image = tf.reshape(image, (1, 28, 28, 1))
+      image = tf.reshape(image, (1, IMAGE_HEIGHT, IMAGE_WIDTH, 3))
 
-      probabilites = model.predict(image)
-      prediction = np.argmax(probabilites, axis=1)
+      probs = model.predict(image)
+      print('probs\n', file=sys.stdout)
+      print(probs, file=sys.stdout)
+      
+      prediction = probs[0][0]
+      print('prediction\n', file=sys.stdout)
+      print(prediction, file=sys.stdout)
+      
+      label = "Dog" if prediction >= 0.5 else "Cat"
+      
+      prediction_probs = prediction if prediction >= 0.5 else 1 - prediction
+      prediction_probs = round((prediction_probs * 100), 2)
+      print('prediction_probs\n', file=sys.stdout)
+      print(prediction_probs, file=sys.stdout)
+      # label = "Dog" if probs >= 0.5 else "Cat"
+      # prediction = np.argmax(probabilites, axis=1)
+      # prediction_probs = probs if probs >= 0.5 else 1 - probs
+      # prediction_probs = round((prediction_probs[0][0] * 100), 2)
+
+      predict_image = base64.b64encode(image_raw)
   
-  return str(prediction)
+  return jsonify({'label': label, 'probs': str(prediction_probs)})
 
 if __name__ == '__main__':
   app.run()
