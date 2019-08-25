@@ -1,4 +1,4 @@
-# Snoopy Kitty Prediction Machine
+# Snoopy Kitty Prediction Machine using Tensorflow
 A website application written in python Flask to predict dog and cat from users' uploaded images. This web application will use a trained model using Tensorflow 2.0-beta1 to predict the images.
 
 ## Web Application Features
