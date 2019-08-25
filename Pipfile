@@ -8,9 +8,6 @@ python_version = "3.7"
 
 [packages]
 flask = "*"
-flask-uploads = "*"
-flask-dropzone = "*"
-flask-debugtoolbar = "*"
 psycopg2 = "*"
 
 [dev-packages]

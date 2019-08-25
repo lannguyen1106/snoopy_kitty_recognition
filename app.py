@@ -17,7 +17,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 
 # load the trained model
-model = tf.keras.models.load_model("static/models/my_model_tl_sigmoid_acc9784.h5")
+model = tf.keras.models.load_model("static/models/my_model_tl_sigmoid_rmsprop_acc9755.h5")
 
 # change these two values to match the image width and height in the trained model
 IMAGE_WIDTH = 165
