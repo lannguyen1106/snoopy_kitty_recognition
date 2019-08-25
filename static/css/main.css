@@ -49,6 +49,10 @@ h1 {
   height: 0;
 }
 
+.btn-choose-other-image.is-info.is-outlined {
+  background-color: #fff;
+}
+
 /*-----------------------------------*\
   MAIN
 \*-----------------------------------*/

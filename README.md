@@ -1,4 +1,4 @@
-# Snoopy Kitty Prediction Machine using Tensorflow
+# Snoopy Kitty Prediction Machine
 A website application written in python Flask to predict dog and cat from users' uploaded images. This web application will use a trained model using Tensorflow 2.0-beta1 to predict the images.
 
 ## Web Application Features
@@ -41,6 +41,10 @@ We splitted the train datasets to 20,000 images for training and 5,000 images fo
 We experiment 2 training strategies:
 * Convolutional Neuron Network
 * Transfer Learning using **MobileNet V2**, a model developed at Google and pre-trained on the ImageNet dataset.
+
+### Our CNN Outlined Map
+![](https://i.imgur.com/vhJlKzN.jpg)
+
 
 ## Model Accuracy
 We achieved **91% validation accuracy** with our CNN model and **97% validation accuracy** with our transfer learing model. Therefore, we use our transfer learning model for the prediction engine.
