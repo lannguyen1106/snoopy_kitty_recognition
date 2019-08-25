@@ -4,6 +4,8 @@ import os
 import logging
 import re
 import sys
+import datetime
+import db_init as db
 import tensorflow as tf
 from werkzeug import secure_filename
 from flask import Flask, flash, escape, render_template, request, send_from_directory, redirect, session, url_for, jsonify
@@ -27,10 +29,12 @@ def allowed_file(filename):
   """
   return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
+# Homepage
 @app.route('/')
 def main():
   return render_template('home.html')
 
+# Handle image upload
 @app.route('/upload-image/', methods=['GET', 'POST'])
 def upload_image():
   """
@@ -82,7 +86,34 @@ def upload_image():
       # print('prediction_probs\n', file=sys.stdout)
       # print(prediction_probs, file=sys.stdout)
   
-  return jsonify({'label': label, 'probs': str(prediction_probs)})
+  return jsonify({'label': label, 'probs': str(prediction_probs), 'upload_file_path': upload_file_path})
+
+# Handle predict correction
+@app.route('/predict-correction/', methods=['POST'])
+def predict_correction():
+
+  results = {}
+
+  try:
+    # get data from the UI form ajax submission
+    form_data = request.get_data()
+
+    data_upload_file_path = request.form['upload-file-path']
+    data_correction_label = request.form['correction-label']
+    created_on = datetime.datetime.now()
+
+    # create database table first
+    db.create_tables()
+
+    # insert into database
+    db.insert_row((data_upload_file_path, data_correction_label, created_on), 'predict_correction')
+    results['status'] = 'success'
+    results['message'] = 'THANK YOU FOR YOUR CORRECTION!!!'
+  except Exception as error:
+    results['status'] = 'exception'
+    results['message'] = 'ERROR: ' + error
+
+  return jsonify(results)
 
 if __name__ == '__main__':
   app.run()
