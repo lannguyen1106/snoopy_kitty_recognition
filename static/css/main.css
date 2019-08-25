@@ -69,6 +69,11 @@ h1 {
   background: url("../img/pattern-6.jpg") repeat;
 }
 
+.box-about .title,
+.box-whatever .title {
+  font-size: 1.9rem;
+}
+
 .box-main {
   background: url("../img/pattern-4.jpg") repeat;
   text-align: center;

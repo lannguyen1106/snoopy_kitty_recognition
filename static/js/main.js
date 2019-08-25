@@ -48,6 +48,7 @@ function process_upload_another() {
   
   $('.box-predict-results').addClass('hidden');
   $('.box-intro-inner').removeClass('hidden')
+  $('.box-intro').removeClass('predict-results')
   $('#form-predict-correction .button').removeClass('hidden');
   $('.box-predict-correction').addClass('hidden');
   $('#thank-you').text('');
