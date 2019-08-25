@@ -57,13 +57,23 @@ h1 {
   margin: 0 auto;
 }
 
+.box-about {
+  background: url("../img/pattern-5.jpg") repeat;
+}
+
+.box-whatever {
+  background: url("../img/pattern-6.jpg") repeat;
+}
 
 .box-main {
+  background: url("../img/pattern-4.jpg") repeat;
   text-align: center;
+  padding: 0;
 }
 
 .box-upload-file {
   text-align: center;
+  padding-bottom: 20px;
 }
 
 .box-preview-image {
@@ -131,10 +141,19 @@ h1 {
 \*-----------------------------------*/
 .box-intro {
   margin-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.box-intro.predict-results {
+  background: url("../img/pattern-2.jpg") repeat;
+  border-bottom: 4px solid #d53369;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
 }
 
 .box-predict-results {
-  padding: 0 10%;
+  padding: 0 20%;
 }
 
 .box-predict-results p.subtitle {
@@ -142,9 +161,17 @@ h1 {
 }
 
 .box-predict-results h2.title {
-  font-size: 2em;
-  /* margin: 0 0 40px 0; */
+  color: #fff;
+  font-size: 2.5em;
   line-height: 1;
+  text-shadow: 0 2px #d53369;
+}
+
+.box-predict-results .inner {
+  background: #fff;
+  box-shadow: 0 3px 5px rgba(40, 40, 40, 0.5);
+  padding: 10px 20px;
+  display: inline-block;
 }
 
 #predict-result {
@@ -159,7 +186,7 @@ h1 {
 
 .box-predict-correction {
   margin: 20px 0 0 0 !important;
-  padding: 20px 0;
+  padding: 20px 40px;
 }
 
 #form-predict-correction {

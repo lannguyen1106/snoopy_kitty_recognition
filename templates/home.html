@@ -31,52 +31,57 @@
         <h1 class="text-grads-1">Snoopy Kitty Prediction Machine</h1>
         <div class="tile is-ancestor">
           <div class="tile is-4 is-vertical is-parent">
-            <div class="tile is-child box">
+            <div class="tile is-child box box-about">
               <p class="title text-grads-1">Why Snoopy & Kitty?</p>
               <p>Because we use the power of Snoopy the dog & Kitty the cat to predict a dog or cat out of your photo!</p>
             </div>
-            <div class="tile is-child box">
+            <div class="tile is-child box box-whatever">
               <p class="title text-grads-1">Cool, then how about this box?</p>
               <p>We...have no idea, we just put it there so it makes the layout looks nicer :P</p>
             </div>
           </div>
           <div class="tile is-parent tile-main">
             <div class="tile is-child box box-main">
-                <article class="tile is-child box-upload-file">
-                    <div class="box-intro">
-                      <div class="box-predict-results hidden">
-                          <h2 class="title text-grads-1">Voilà!</h2>
-                          <div class="columns">
-                            <div class="column">
-                              <p class="subtitle">We think it's a:</p>
-                              <div id="predict-result" class="text-grads-3"></div>
-                            </div>
-                            <div class="column">
-                              <p class="subtitle">How sure we are:</p>
-                              <div id="predict-probs" class="text-grads-3"></div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="box-intro-inner">
-                          <h2 class="title text-grads-1">Hi there!</h2>
-                          <p class="subtitle">Please choose your photo and click Predict Now.</p>
-                        </div>
-                    </div>
-                    
-                    <form method="POST" id="form-upload-image" enctype="multipart/form-data">
-                      <input type="file" name="file" id="file">
-                      <div class="box-preview-image">
+              <div class="box-intro">
+                <div class="box-predict-results hidden">
+                    <h2 class="title">Voilà!</h2>
+                    <div class="columns">
+                      <div class="column">
                         <div class="inner">
-                          <a href="#" id="btn-upload-file">
-                            <span class="text-grads-2">Choose your cat or dog photo</span>
-                            <img id="preview-image" src="#" alt="" class="hidden" />
-                          </a>
+                          <p class="subtitle">We think it's a:</p>
+                          <div id="predict-result" class="text-grads-3"></div>
                         </div>
+                        
                       </div>
-                      <a href="#" id="btn-upload-another" class="button hidden">Choose another photo</a> <a id="btn-submit-file" class="button is-success hidden">Predict Now</a>
-                    </form>
-                    
-                    <div class="box box-predict-correction hidden">
+                      <div class="column">
+                          <div class="inner">
+                            <p class="subtitle">How sure we are:</p>
+                            <div id="predict-probs" class="text-grads-3"></div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="box-intro-inner">
+                    <h2 class="title text-grads-1">Hi there!</h2>
+                    <p class="subtitle">Please choose your photo and click Predict Now.</p>
+                  </div>
+              </div>
+              <article class="tile is-child box-upload-file">                    
+                  <form method="POST" id="form-upload-image" enctype="multipart/form-data">
+                    <input type="file" name="file" id="file">
+                    <div class="box-preview-image">
+                      <div class="inner">
+                        <a href="#" id="btn-upload-file">
+                          <span class="text-grads-2">Choose your cat or dog photo</span>
+                          <img id="preview-image" src="#" alt="" class="hidden" />
+                        </a>
+                      </div>
+                    </div>
+                    <a href="#" id="btn-upload-another" class="button hidden">Choose another photo</a> <a id="btn-submit-file" class="button is-success hidden">Predict Now</a>
+                  </form>
+                  
+                  <div class="box-predict-correction hidden">
+                      <div class="box">
                         <div id="loading" class="hidden"><progress class="progress is-danger" max="100">20%</progress></div>
                         <h3 class="title text-grads-1">Predict Correction</h3>
                         <p class="subtitle">No one is perfect! If the prediction is wrong, please help us to correct it. <br /> Thanks a lot o(^__^)o</p>
@@ -86,14 +91,9 @@
                           <a id="btn-correction-incorrect" name="correction-label" data-label="0" class="button btn-correction is-medium is-info is-outlined">It's a cat</a>
                         </form>
                         <h3 id="thank-you" class="subtitle text-grads-2"></h3>
-                    </div>
-    
-                    
-                </article>
-    
-                <article class="tile is-child  hidden">
-                  
-                </article>
+                      </div>
+                  </div>
+              </article>
             </div>
           </div>
         </div>

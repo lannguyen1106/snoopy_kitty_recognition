@@ -77,6 +77,7 @@ $('#form-upload-image').submit(function(e) {
       $('#upload-file-path').val(data['upload_file_path']);
       
       $('#btn-submit-file').addClass('hidden')
+      $('.box-intro').addClass('predict-results')
       $('.box-intro-inner').addClass('hidden')
       $('.box-predict-correction, .box-predict-results').removeClass('hidden')
     }
