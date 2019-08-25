@@ -43,7 +43,7 @@ We experiment 2 training strategies:
 * Transfer Learning using **MobileNet V2**, a model developed at Google and pre-trained on the ImageNet dataset.
 
 ## Model Accuracy
-We achieved 97% validation accuracy with our transfer learing model.
+We achieved **91% validation accuracy** with our CNN model and **97% validation accuracy** with our transfer learing model. Therefore, we use our transfer learning model for the prediction engine.
 
 ![](https://i.imgur.com/1E7J7PD.png)
 
