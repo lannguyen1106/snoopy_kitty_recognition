@@ -11,8 +11,9 @@
   <link rel="manifest" href="site.webmanifest">
   <link rel="apple-touch-icon" href="icon.png">
   <!-- Place favicon.ico in the root directory -->
-
+  <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="static/css/bulma.min.css">
+  <!-- <link rel="stylesheet" href="static/css/animate.css"> -->
   <link rel="stylesheet" href="static/css/main.css">
   
 
@@ -25,65 +26,79 @@
   <![endif]-->
 
   <!-- Add your site or application content here -->
-  <section class="section is-medium">
-    <div class="tile is-ancestor">
-      <div class="tile is-vertical is-8">
-        <div class="tile">
-          <div class="tile is-parent is-vertical">
-            <article class="tile is-child notification is-primary">
-              <p class="title">Hi there!</p>
-              <p class="subtitle">Please upload your photo</p>
-            </article>
-            <article class="tile is-child notification is-warning">
-            </article>
-          </div>
-          <div class="tile is-parent">
-            <article class="tile is-child notification is-info">
-              <p class="title">Hi there!</p>
-              <p class="subtitle">Please upload your photo</p>
-
-              <p class="title">UPLOAD FILE HERE</p>
-              <form method="POST" id="form-upload-image" enctype="multipart/form-data">
-                <img id="preview-image" src="#" alt="" />
-                <input type="file" name="file" id="file">
-                <input type="submit" value="Predict Now" id="input_submit_btn">
-              </form>
-              <div id="result"></div>
-              <div id="probs"></div>
-              <!-- UPLOAD FILE FORM -->
-              <!-- dropzone.create(action_view='main')  -->
-            </article>
-          </div>
-        </div>
-        <div class="tile is-parent">
-          <article class="tile is-child notification is-danger">
-            <H3 class="title">CORRECTION</3>
-            <p>No one is perfect! If the prediction is wrong, please help us to correct it. Thanks a lot ^__^!!!</p>
-            <form action="" id="form-predict-correction" method="POST" enctype="multipart/form-data">
-              <input type="hidden" value="" id="upload-file-path" name="upload-file-path">
-              <a id="btn-correction-correct" name="correction-label" data-label="1" class="button btn-correction">It's a dog</a>
-              <a id="btn-correction-incorrect" name="correction-label" data-label="0" class="button btn-correction">It's a cat</a>
-            </form>
-            <div id="thank-you"></div>
-            
-            <div class="content">
-              <!-- Content -->
+  <div class="container">
+    <section class="section is-medium section-main">
+        <h1 class="text-grads-1">Snoopy Kitty Prediction Machine</h1>
+        <div class="tile is-ancestor">
+          <div class="tile is-4 is-vertical is-parent">
+            <div class="tile is-child box">
+              <p class="title text-grads-1">Why Snoopy & Kitty?</p>
+              <p>Because we use the power of Snoopy the dog & Kitty the cat to predict a dog or cat out of your photo!</p>
             </div>
-          </article>
-        </div>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child notification is-success">
-          <div class="content">
-            <p class="title">Thank You, Moah Moah!!!</p>
-            <div class="content">
-              <!-- Content -->
+            <div class="tile is-child box">
+              <p class="title text-grads-1">Cool, then how about this box?</p>
+              <p>We...have no idea, we just put it there so it makes the layout looks nicer :P</p>
             </div>
           </div>
-        </article>
-      </div>
-    </div>
-  </section>
+          <div class="tile is-parent tile-main">
+            <div class="tile is-child box box-main">
+                <article class="tile is-child box-upload-file">
+                    <div class="box-intro">
+                      <div class="box-predict-results hidden">
+                          <h2 class="title text-grads-1">Voilà!</h2>
+                          <div class="columns">
+                            <div class="column">
+                              <p class="subtitle">We think it's a:</p>
+                              <div id="predict-result" class="text-grads-3"></div>
+                            </div>
+                            <div class="column">
+                              <p class="subtitle">How sure we are:</p>
+                              <div id="predict-probs" class="text-grads-3"></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="box-intro-inner">
+                          <h2 class="title text-grads-1">Hi there!</h2>
+                          <p class="subtitle">Please choose your photo and click Predict Now.</p>
+                        </div>
+                    </div>
+                    
+                    <form method="POST" id="form-upload-image" enctype="multipart/form-data">
+                      <input type="file" name="file" id="file">
+                      <div class="box-preview-image">
+                        <div class="inner">
+                          <a href="#" id="btn-upload-file">
+                            <span class="text-grads-2">Choose your cat or dog photo</span>
+                            <img id="preview-image" src="#" alt="" class="hidden" />
+                          </a>
+                        </div>
+                      </div>
+                      <a href="#" id="btn-upload-another" class="button hidden">Choose another photo</a> <a id="btn-submit-file" class="button is-success hidden">Predict Now</a>
+                    </form>
+                    
+                    <div class="box box-predict-correction hidden">
+                        <div id="loading" class="hidden"><progress class="progress is-danger" max="100">20%</progress></div>
+                        <h3 class="title text-grads-1">Predict Correction</h3>
+                        <p class="subtitle">No one is perfect! If the prediction is wrong, please help us to correct it. <br /> Thanks a lot o(^__^)o</p>
+                        <form action="" id="form-predict-correction" method="POST" enctype="multipart/form-data">
+                          <input type="hidden" value="" id="upload-file-path" name="upload-file-path">
+                          <a id="btn-correction-correct" name="correction-label" data-label="1" class="button btn-correction is-medium is-info is-outlined">It's a dog</a>
+                          <a id="btn-correction-incorrect" name="correction-label" data-label="0" class="button btn-correction is-medium is-info is-outlined">It's a cat</a>
+                        </form>
+                        <h3 id="thank-you" class="subtitle text-grads-2"></h3>
+                    </div>
+    
+                    
+                </article>
+    
+                <article class="tile is-child  hidden">
+                  
+                </article>
+            </div>
+          </div>
+        </div>
+      </section>
+  </div>
   
   
 

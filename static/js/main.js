@@ -1,22 +1,64 @@
+PREVIEW_IMAGE_HEIGHT = 300;
+
+jQuery.ajaxSetup({
+  beforeSend: function() {
+     $('#loading').removeClass('hidden');
+  },
+  complete: function(){
+     $('#loading').addClass('hidden');
+  },
+  success: function() {
+    $('#loading').addClass('hidden');
+  }
+});
+
+$('#btn-upload-file, #btn-upload-another').on('click', function(e) {
+  e.preventDefault();
+  
+  $('#file').click();
+});
+
 // Show the selected image to the UI before uploading
 function readURL(input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
     
     reader.onload = function(e) {
-      $('#preview-image').attr('src', e.target.result);
+      $('#preview-image').attr('src', e.target.result).css('height', PREVIEW_IMAGE_HEIGHT);
     }
     
     reader.readAsDataURL(input.files[0]);
+
+    process_upload_another()
   }
 }
 
 $("#file").change(function() {
+  $('#preview-image').removeClass('hidden');
   readURL(this);
 });
 
+function process_upload_another() {
+  $('#btn-upload-another, #btn-submit-file').removeClass('hidden');
+  $btn_upload_file = $('#btn-upload-file');
+  $btn_upload_file.addClass('relative');
+
+  $upload_another = $btn_upload_file.find('span');
+  $upload_another.addClass('hidden');
+  
+  $('.box-predict-results').addClass('hidden');
+  $('.box-intro-inner').removeClass('hidden')
+  $('#form-predict-correction .button').removeClass('hidden');
+  $('.box-predict-correction').addClass('hidden');
+  $('#thank-you').text('');
+}
+
 // Upload image using AJAX
-let my_form = document.getElementById('form-upload-image')
+let my_form = document.getElementById('form-upload-image');
+$('#btn-submit-file').on('click', function(e) {
+  e.preventDefault();
+  $('#form-upload-image').trigger('submit');
+});
 $('#form-upload-image').submit(function(e) {
   e.preventDefault();
   
@@ -30,13 +72,18 @@ $('#form-upload-image').submit(function(e) {
     data: form_data,
     success: function(data) {
       console.log(data['upload_file_path'])
-      $('#result').text('Predicted Output: ' + data['label']);
-      $('#probs').text('Probability: ' + data['probs']);
+      $('#predict-result').text(data['label']);
+      $('#predict-probs').text(data['probs'] + '%');
       $('#upload-file-path').val(data['upload_file_path']);
+      
+      $('#btn-submit-file').addClass('hidden')
+      $('.box-intro-inner').addClass('hidden')
+      $('.box-predict-correction, .box-predict-results').removeClass('hidden')
     }
   });
 });
 
+// Handle Predict Correction
 $('#form-predict-correction .btn-correction').on('click', function(e) {
   e.preventDefault();
 
@@ -51,8 +98,6 @@ function handle_predict_correction(label) {
   let form_data = new FormData(correction_form);
   form_data.append('correction-label', label)
 
-  console.log(label)
-
   $.ajax({
     type: 'POST',
     url: '/predict-correction/',
@@ -60,24 +105,8 @@ function handle_predict_correction(label) {
     contentType: false,
     data: form_data,
     success: function(data) {
+      $('#form-predict-correction .button').addClass('hidden')
       $('#thank-you').text(data['message']);
     }
   });
 };
-
-// $('#form-predict-correction').submit(function(e) {
-//   e.preventDefault();
-  
-//   let form_data = new FormData(correction_form);
-//   form_data.append('correction-label', $('#form-predict-correction correction-label'))
-//   $.ajax({
-//     type: 'POST',
-//     url: '/predict-correction/',
-//     processData: false,
-//     contentType: false,
-//     data: form_data,
-//     success: function(data) {
-//       $('#thank-you').text('THANK YOU FOR YOUR CORRECTION!!!');
-//     }
-//   });
-// });

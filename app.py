@@ -17,11 +17,11 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
 
 # load the trained model
-model = tf.keras.models.load_model("static/models/my_model_tl_sigmoid_acc95.h5")
+model = tf.keras.models.load_model("static/models/my_model_tl_sigmoid_acc9784.h5")
 
 # change these two values to match the image width and height in the trained model
-IMAGE_WIDTH = 120
-IMAGE_HEIGHT = 120
+IMAGE_WIDTH = 165
+IMAGE_HEIGHT = 165
 
 def allowed_file(filename):
   """
@@ -96,19 +96,19 @@ def predict_correction():
 
   try:
     # get data from the UI form ajax submission
-    form_data = request.get_data()
-
     data_upload_file_path = request.form['upload-file-path']
     data_correction_label = request.form['correction-label']
-    created_on = datetime.datetime.now()
 
-    # create database table first
-    db.create_tables()
+    if data_upload_file_path != '':
+      created_on = datetime.datetime.now()
 
-    # insert into database
-    db.insert_row((data_upload_file_path, data_correction_label, created_on), 'predict_correction')
-    results['status'] = 'success'
-    results['message'] = 'THANK YOU FOR YOUR CORRECTION!!!'
+      # create database table first
+      db.create_tables()
+
+      # insert into database
+      db.insert_row((data_upload_file_path, data_correction_label, created_on), 'predict_correction')
+      results['status'] = 'success'
+      results['message'] = 'Thank you for your correction!!!'
   except Exception as error:
     results['status'] = 'exception'
     results['message'] = 'ERROR: ' + error
