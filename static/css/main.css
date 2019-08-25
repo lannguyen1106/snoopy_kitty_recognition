@@ -207,6 +207,24 @@ h1 {
   $ANIMATIONS
 \*-----------------------------------*/
 
+.snoopy-gif {
+  position: absolute;
+  z-index: -1;
+  transform: rotate(-60deg);
+  left: 20px;
+  bottom: 40px;
+  width: 130px;
+}
+
+.kitty-gif {
+  position: absolute;
+  z-index: -1;
+  transform: rotate(60deg);
+  right: -20px;
+  bottom: 40px;
+  width: 180px;
+}
+
 @keyframes hue {
   from {
     filter: hue-rotate(0deg);
