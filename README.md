@@ -46,7 +46,8 @@ We experiment 2 training strategies:
 * Transfer Learning using **MobileNet V2**, a model developed at Google and pre-trained on the ImageNet dataset.
 
 ### Our CNN Outlined Map
-![](https://i.imgur.com/vhJlKzN.jpg)
+![](https://i.imgur.com/tZMOLd5.jpg)
+
 
 
 ## Model Accuracy
